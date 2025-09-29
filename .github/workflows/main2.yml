@@ -26,10 +26,21 @@ jobs:
           docker build -t vise-api:latest .
 
       # Levantar contenedor
+        
       - name: Run container
         run: |
           docker run -d -p ${{ github.event.inputs.PORT }}:${{ github.event.inputs.PORT }} --name vise-api vise-api:latest
-          sleep 5
+          
+          echo "⏳ Esperando que el API esté disponible..."
+          for i in {1..15}; do
+            if curl -s http://localhost:${{ github.event.inputs.PORT }}/health > /dev/null; then
+              echo "✅ API está lista"
+              break
+            fi
+            echo "Intento $i: API aún no responde..."
+            sleep 3
+          done
+
 
       # Instalar hurl (API testing tool)
       - name: Setup hurl (API testing tool)
