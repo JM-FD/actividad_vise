@@ -9,7 +9,7 @@ POST {{host}}/client
   "viseClub": false,
   "cardType": "Classic"
 }
-HTTP 200
+HTTP 201
 [Captures]
 classic_id: jsonpath "$['clientId']"
 [Asserts]
@@ -26,7 +26,7 @@ POST {{host}}/client
   "viseClub": false,
   "cardType": "Gold"
 }
-HTTP 200
+HTTP 201
 [Captures]
 gold_id: jsonpath "$['clientId']"
 [Asserts]
@@ -56,7 +56,7 @@ POST {{host}}/client
   "viseClub": true,
   "cardType": "Platinum"
 }
-HTTP 200
+HTTP 201
 [Captures]
 platinum_id: jsonpath "$['clientId']"
 [Asserts]
@@ -85,7 +85,7 @@ POST {{host}}/client
   "viseClub": true,
   "cardType": "Black"
 }
-HTTP 200
+HTTP 201
 [Captures]
 black_id: jsonpath "$['clientId']"
 [Asserts]
@@ -114,7 +114,7 @@ POST {{host}}/client
   "viseClub": true,
   "cardType": "White"
 }
-HTTP 200
+HTTP 201
 [Captures]
 white_id: jsonpath "$['clientId']"
 [Asserts]
@@ -146,7 +146,7 @@ POST {{host}}/purchase
   "purchaseDate": "2025-09-29",
   "purchaseCountry": "USA"
 }
-HTTP 200
+HTTP 201
 [Asserts]
 jsonpath "$.status" == "Approved"
 jsonpath "$.purchase.discountApplied" == 30
@@ -163,7 +163,7 @@ POST {{host}}/purchase
   "purchaseDate": "2025-09-27",
   "purchaseCountry": "USA"
 }
-HTTP 200
+HTTP 201
 [Asserts]
 jsonpath "$.status" == "Approved"
 jsonpath "$.purchase.discountApplied" == 75
@@ -179,7 +179,7 @@ POST {{host}}/purchase
   "purchaseDate": "2025-09-30",
   "purchaseCountry": "USA"
 }
-HTTP 200
+HTTP 201
 [Asserts]
 jsonpath "$.purchase.discountApplied" == 40
 jsonpath "$.purchase.finalAmount" == 160
@@ -195,7 +195,7 @@ Content-Type: application/json
   "purchaseDate": "2025-10-02",
   "purchaseCountry": "France"
 }
-HTTP 200
+HTTP 201
 [Asserts]
 jsonpath "$.purchase.discountApplied" == 5
 jsonpath "$.purchase.finalAmount" == 95
@@ -210,7 +210,7 @@ POST {{host}}/purchase
   "purchaseDate": "2025-10-01",
   "purchaseCountry": "USA"
 }
-HTTP 200
+HTTP 201
 [Asserts]
 jsonpath "$.purchase.discountApplied" == 50
 jsonpath "$.purchase.finalAmount" == 150
@@ -225,7 +225,7 @@ POST {{host}}/purchase
   "purchaseDate": "2025-10-04",
   "purchaseCountry": "USA"
 }
-HTTP/1.1 200
+HTTP/1.1 201
 [Asserts]
 jsonpath "$.purchase.discountApplied" == 91
 jsonpath "$.purchase.finalAmount" == 169
@@ -240,7 +240,7 @@ POST {{host}}/purchase
   "purchaseDate": "2025-10-02",
   "purchaseCountry": "Germany"
 }
-HTTP 200
+HTTP 201
 [Asserts]
 jsonpath "$.purchase.discountApplied" == 5
 jsonpath "$.purchase.finalAmount" == 95
@@ -255,7 +255,7 @@ POST {{host}}/purchase
   "purchaseDate": "2025-09-30",
   "purchaseCountry": "USA"
 }
-HTTP 200
+HTTP 201
 [Asserts]
 jsonpath "$.purchase.discountApplied" == 50
 jsonpath "$.purchase.finalAmount" == 150
@@ -270,7 +270,7 @@ POST {{host}}/purchase
   "purchaseDate": "2025-10-05",
   "purchaseCountry": "USA"
 }
-HTTP 200
+HTTP 201
 [Asserts]
 jsonpath "$.purchase.discountApplied" == 91
 jsonpath "$.purchase.finalAmount" == 169
@@ -285,7 +285,7 @@ POST {{host}}/purchase
   "purchaseDate": "2025-10-02",
   "purchaseCountry": "Brazil"
 }
-HTTP 200
+HTTP 201
 [Asserts]
 jsonpath "$.purchase.discountApplied" == 5
 jsonpath "$.purchase.finalAmount" == 95
