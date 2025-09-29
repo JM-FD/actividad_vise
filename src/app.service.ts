@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
-  getHello(): string {
-    return 'Hello World!';
+  getDevelop(): string {
+    return 'Desarrollado por: Juan Mozo, Juan Poveda, Johan Lopez y Julian Sanchez';
   }
 }
