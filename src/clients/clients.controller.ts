@@ -9,7 +9,7 @@ export class ClientsController {
   constructor(private readonly clientsService: ClientsService) {}
 
   @Post()
-  @HttpCode(HttpStatus.CREATED) // fuerza que devuelva 201 como en el Hurl
+  @HttpCode(HttpStatus.CREATED) 
   async registerClient(@Body() body: CreateClientDto): Promise<ClientResponseDto> {
     return this.clientsService.registerClient(body);
   }
