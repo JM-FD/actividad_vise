@@ -1,7 +1,9 @@
-import { CreateClientDto } from './create-client.dto';
+import { ClientEntity } from '../clients.entity';
 
 export class ClientResponseDto {
-  message: string;
-  data: CreateClientDto;
-  eligible: boolean;
+  status: 'Registered' | 'Rejected';
+  clientId: number;
+  cardType: string;
+  data: ClientEntity;
 }
+

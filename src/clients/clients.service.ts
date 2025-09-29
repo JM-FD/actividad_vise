@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateClientDto } from './dto/create-client.dto';
-import { ClientResponseDto } from './dto/client-response.dto';
 import { ClientEntity } from './clients.entity';
-
+import { ClientResponseDto } from './dto/client-response.dto';
 
 @Injectable()
 export class ClientsService {
@@ -37,7 +36,6 @@ export class ClientsService {
 
   registerClient(client: CreateClientDto): ClientResponseDto {
     let isEligible = false;
-    let reason = '';
 
     switch (client.cardType.toLowerCase()) {
       case 'classic':
@@ -45,14 +43,9 @@ export class ClientsService {
         break;
       case 'gold':
         isEligible = client.monthlyIncome >= 500;
-        if (!isEligible) reason = 'Ingreso mínimo requerido: 500 USD';
         break;
       case 'platinum':
         isEligible = client.monthlyIncome >= 1000 && client.viseClub;
-        if (!isEligible) {
-          reason =
-            'Ingreso mínimo de 1000 USD y suscripción VISE CLUB son requeridos';
-        }
         break;
       case 'black':
       case 'white': {
@@ -65,15 +58,10 @@ export class ClientsService {
           client.monthlyIncome >= 2000 &&
           client.viseClub &&
           !isBlockedCountry;
-
-        if (!isEligible) {
-          reason =
-            'Requiere ingreso mínimo de 2000 USD, suscripción VISE CLUB y no residir en China, Vietnam, India o Irán';
-        }
         break;
       }
       default:
-        reason = 'Tipo de tarjeta no reconocido';
+        isEligible = false;
         break;
     }
 
@@ -85,11 +73,10 @@ export class ClientsService {
     this.clients.push(newClient);
 
     return {
-      message: isEligible
-        ? `El cliente ${client.name} es apto para la tarjeta ${client.cardType}`
-        : `El cliente ${client.name} NO es apto para la tarjeta ${client.cardType}. ${reason}`,
+      status: isEligible ? 'Registered' : 'Rejected',
+      clientId: newClient.id,
+      cardType: newClient.cardType,
       data: newClient,
-      eligible: isEligible,
     };
   }
 

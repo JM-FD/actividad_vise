@@ -1,19 +1,21 @@
-import { Controller, Post, Get, Body } from '@nestjs/common';
+import { Controller, Post, Get, Body, HttpCode, HttpStatus } from '@nestjs/common';
 import { ClientsService } from './clients.service';
 import { CreateClientDto } from './dto/create-client.dto';
 import { ClientResponseDto } from './dto/client-response.dto';
+import { ClientEntity } from './clients.entity';
 
 @Controller('client')
 export class ClientsController {
   constructor(private readonly clientsService: ClientsService) {}
 
   @Post()
-  registerClient(@Body() body: CreateClientDto): ClientResponseDto {
+  @HttpCode(HttpStatus.CREATED) // fuerza que devuelva 201 como en el Hurl
+  async registerClient(@Body() body: CreateClientDto): Promise<ClientResponseDto> {
     return this.clientsService.registerClient(body);
   }
 
   @Get()
-  findAll() {
+  async findAll(): Promise<ClientEntity[]> {
     return this.clientsService.findAll();
   }
 }
