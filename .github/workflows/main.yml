@@ -21,7 +21,16 @@ jobs:
       - name: Run container
         run: |
           docker run -d -p ${{ github.event.inputs.PORT }}:${{ github.event.inputs.PORT }} --name vise-api vise-api:latest
-          sleep 5
+          echo "Esperando a que la API arranque..."
+          for i in {1..15}; do
+            if curl -s http://localhost:${{ github.event.inputs.PORT }}/ > /dev/null; then
+              echo "API lista!"
+              break
+            fi
+            echo "Esperando..."
+            sleep 2
+          done
+
       - name: Setup hurl (API testing tool)
         uses: gacts/install-hurl@v1
       - name: Test API
