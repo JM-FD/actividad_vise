@@ -5,6 +5,7 @@ import { ClientResponseDto } from './dto/client-response.dto';
 
 @Injectable()
 export class ClientsService {
+  /* default clients  */
   private clients: ClientEntity[] = [
     {
       id: 1,
@@ -33,7 +34,7 @@ export class ClientsService {
   ];
 
   private idCounter = this.clients.length + 1;
-
+   /* register a new client  */
   registerClient(client: CreateClientDto): ClientResponseDto {
     let isEligible = false;
 
@@ -79,7 +80,7 @@ export class ClientsService {
       data: newClient,
     };
   }
-
+  /* Get all clients  */
   findAll(): ClientEntity[] {
     return this.clients;
   }

@@ -4,9 +4,9 @@ import { PurchaseController } from './purchase.controller';
 import { ClientsModule } from '../clients/clients.module';
 
 @Module({
-  imports: [ClientsModule], // para poder inyectar ClientsService
+  imports: [ClientsModule], 
   controllers: [PurchaseController],
   providers: [PurchaseService],
-  exports: [PurchaseService], // opcional, si quieres usarlo en otro módulo
+  exports: [PurchaseService],
 })
 export class PurchaseModule {}
