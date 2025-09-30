@@ -3,6 +3,8 @@ import { PurchaseResponseDto } from './dto/purchase-response.dto';
 
 @Injectable()
 export class PurchaseService {
+
+  // Processes a client's purchase, applying discounts and benefits based on card type, amount, date, and country
   processPurchase(client: any, amount: number, date: string, country: string): PurchaseResponseDto {
     let discountApplied = 0;
     let benefit = '';
