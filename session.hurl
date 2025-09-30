@@ -225,7 +225,7 @@ POST {{host}}/purchase
   "purchaseDate": "2025-10-04",
   "purchaseCountry": "USA"
 }
-HTTP/1.1 200
+HTTP/1.1 201
 [Asserts]
 jsonpath "$.purchase.discountApplied" == 91
 jsonpath "$.purchase.finalAmount" == 169
