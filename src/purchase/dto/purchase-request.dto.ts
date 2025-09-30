@@ -9,9 +9,9 @@ export class PurchaseRequestDto {
 
   @IsString()
   @IsNotEmpty()
-  purchaseDate: string;
+  purchaseCountry: string;
 
   @IsString()
   @IsNotEmpty()
-  purchaseCountry: string;
+  purchaseDate: string;
 }

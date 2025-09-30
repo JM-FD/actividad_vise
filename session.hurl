@@ -1,6 +1,6 @@
 # Card restrictions
 
-# Classic - should register without restrictions
+# Classic - should register without restriction
 POST {{host}}/client
 {
   "name": "Alice Classic",
