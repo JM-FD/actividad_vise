@@ -1,4 +1,4 @@
-name: Azure Continuous Delivery
+name: Azure Continuous Delivery - Johan Andrei Lopez Higuera
 
 on:
   workflow_dispatch:
