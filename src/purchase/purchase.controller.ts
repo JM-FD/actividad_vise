@@ -12,6 +12,7 @@ export class PurchaseController {
     private readonly clientsService: ClientsService,
   ) {}
 
+  /* Processes a purchase request: validates client existence and executes the purchase */
   @Post()
   @HttpCode(201)
   makePurchase(@Body() body: PurchaseRequestDto): PurchaseResponseDto {
