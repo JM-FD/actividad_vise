@@ -72,4 +72,4 @@ jobs:
         uses: gacts/install-hurl@v1
 
       - name: Test API
-        run: hurl --variable host=https://${{ github.event.inputs.AZURE_WEBAPP_NAME }}.azurewebsites.net:${{ github.event.inputs.PORT }} --connect-timeout 20s --error-format long --verbose --test session.hurl
+        run: hurl --variable host=https://${{ github.event.inputs.visesi-e6hvb2h3dhc6d5ep.westus3-01 }}.azurewebsites.net:${{ github.event.inputs.PORT }} --connect-timeout 20s --error-format long --verbose --test session.hurl
