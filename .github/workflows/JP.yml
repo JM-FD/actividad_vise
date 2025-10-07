@@ -20,7 +20,7 @@ on:
         default: '443'
 
 env:
-  IMAGE_URL: ${{ secrets.ACR_NAME_JUAN_MOZO }}.azurecr.io/${{ github.event.inputs.IMAGE_REPOSITORY }}:${{ github.event.inputs.IMAGE_TAG }}
+  IMAGE_URL: ${{ secrets.ACR_NAME_JUAN_POVEDA }}.azurecr.io/${{ github.event.inputs.IMAGE_REPOSITORY }}:${{ github.event.inputs.IMAGE_TAG }}
 
 jobs:
   build_and_push_image:
