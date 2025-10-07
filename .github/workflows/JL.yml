@@ -72,7 +72,56 @@ jobs:
       - name: Setup hurl (API testing tool)
         uses: gacts/install-hurl@v1
 
-      - name: Test API
+      - name: Install dnsutils and curl
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y dnsutils curl
+
+      - name: Wait for DNS to resolve and service to be reachable
+        env:
+          APP_HOST: ${{ github.event.inputs.AZURE_WEBAPP_NAME }}.azurewebsites.net
+          APP_PORT: ${{ github.event.inputs.PORT }}
+          MAX_RETRIES: 12
+        run: |
+          set -euo pipefail
+          host="${APP_HOST}"
+          port="${APP_PORT}"
+          max_retries=${MAX_RETRIES}
+          attempt=0
+
+          echo "Checking DNS resolution and HTTPS reachability for: $host:$port"
+          while [ $attempt -lt $max_retries ]; do
+            attempt=$((attempt+1))
+            echo "Attempt $attempt/$max_retries — checking DNS..."
+            if nslookup "$host" >/dev/null 2>&1; then
+              echo "DNS resolved for $host"
+              echo "Checking HTTPS response on https://$host:$port ..."
+              # Try a HEAD request (follow redirects) and accept 2xx/3xx
+              if curl --head --location --silent --show-error --max-time 10 "https://$host:$port/" >/dev/null 2>&1; then
+                echo "HTTP(S) reachable for https://$host:$port"
+                break
+              else
+                echo "Host resolves but service not yet responding on https://$host:$port"
+              fi
+            else
+              echo "DNS did not resolve yet for $host"
+            fi
+
+            # exponential backoff with cap
+            sleep_seconds=$((2 ** attempt))
+            if [ $sleep_seconds -gt 60 ]; then
+              sleep_seconds=60
+            fi
+            echo "Sleeping $sleep_seconds seconds before retry..."
+            sleep $sleep_seconds
+          done
+
+          if [ $attempt -ge $max_retries ]; then
+            echo "ERROR: Could not resolve or reach https://$host:$port after $max_retries attempts"
+            exit 1
+          fi
+
+      - name: Test API with hurl
         run: |
           hurl \
             --variable host=https://${{ github.event.inputs.AZURE_WEBAPP_NAME }}.azurewebsites.net:${{ github.event.inputs.PORT }} \
