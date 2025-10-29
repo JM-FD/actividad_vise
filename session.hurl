@@ -1,16 +1,5 @@
 # Card restrictions
 
-# espera hasta 2.5 minutos a que /health responda 200
-for i in {1..30}; do
-  if curl -fsS https://viseJM.azurewebsites.net/health > /dev/null; then
-    echo "App is up"; break
-  fi
-  sleep 5
-done
-
-# ahora sí, tu hurl que exige 201 en /client
-
-
 # Classic - should register without restriction
 POST {{host}}/client
 {
