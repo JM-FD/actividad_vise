@@ -1,4 +1,4 @@
-import * as appInsights from 'applicationinsights';
+import appInsights from 'applicationinsights';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
