@@ -1,15 +1,15 @@
-let ai: any;
-try { ai = require('applicationinsights'); } catch {}
+// main.ts
+let ai: any; try { ai = require('applicationinsights'); } catch {}
 
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
-async function bootstrap() {
-  const cs =
-    process.env.APPINSIGHTS_CONNECTION_STRING ||
-    process.env.APPLICATIONINSIGHTS_CONNECTION_STRING; // por si usas este nombre
+process.on('unhandledRejection', (e) => console.error('unhandledRejection', e));
+process.on('uncaughtException', (e) => console.error('uncaughtException', e));
 
-  // Inicializa AI sólo si hay connection string
+async function bootstrap() {
+  const cs = process.env.APPINSIGHTS_CONNECTION_STRING || process.env.APPLICATIONINSIGHTS_CONNECTION_STRING;
+
   if (cs && ai?.setup) {
     try {
       ai
@@ -23,15 +23,14 @@ async function bootstrap() {
         .setUseDiskRetryCaching(true)
         .start();
     } catch (e) {
-      console.error('Application Insights no pudo iniciar:', e);
+      console.error('AI init error:', e);
     }
   }
 
   const app = await NestFactory.create(AppModule);
 
-  const port = Number(process.env.PORT) || 3000; // 👈 App Service te inyecta este puerto
+  const port = Number(process.env.PORT) || 3000; // 👈 SIEMPRE el PORT que da Azure
   await app.listen(port, '0.0.0.0');
-  console.log(`Listening on ${port}`);
+  console.log('ENV PORT=', process.env.PORT, 'Listening on', port);
 }
-
 bootstrap();
