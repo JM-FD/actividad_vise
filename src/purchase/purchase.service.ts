@@ -1,11 +1,24 @@
-import { Injectable } from '@nestjs/common';
+// purchase.service.ts
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { ClientsService } from '../clients/clients.service';
 import { PurchaseResponseDto } from './dto/purchase-response.dto';
 
 @Injectable()
 export class PurchaseService {
+  constructor(private readonly clientsService: ClientsService) {}
 
-  // Processes a client's purchase, applying discounts and benefits based on card type, amount, date, and country
-  processPurchase(client: any, amount: number, date: string, country: string): PurchaseResponseDto {
+  processPurchase(
+    clientId: number,
+    amount: number,
+    date: string,
+    country: string,
+  ): PurchaseResponseDto {
+    const client = this.clientsService.findOne(clientId);
+
+    if (!client) {
+      throw new NotFoundException(`Client with id ${clientId} not found`);
+    }
+
     let discountApplied = 0;
     let benefit = '';
 

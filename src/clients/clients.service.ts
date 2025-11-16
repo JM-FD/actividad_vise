@@ -94,4 +94,8 @@ export class ClientsService {
   findAll(): ClientEntity[] {
     return this.clients;
   }
+
+  findOne(id: number): ClientEntity | undefined {
+  return this.clients.find((c) => c.id === id);
+}
 }

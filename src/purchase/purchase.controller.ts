@@ -1,33 +1,25 @@
-import { Controller, Post, Body, HttpCode } from '@nestjs/common';
+// purchase.controller.ts
+import { Body, Controller, Post } from '@nestjs/common';
 import { PurchaseService } from './purchase.service';
-import { ClientsService } from '../clients/clients.service';
-import { PurchaseRequestDto } from './dto/purchase-request.dto';
-import { PurchaseResponseDto } from './dto/purchase-response.dto';
 
+class PurchaseRequestDto {
+  clientId: number;
+  amount: number;
+  date: string;
+  country: string;
+}
 
 @Controller('purchase')
 export class PurchaseController {
-  constructor(
-    private readonly purchaseService: PurchaseService,
-    private readonly clientsService: ClientsService,
-  ) {}
+  constructor(private readonly purchaseService: PurchaseService) {}
 
-  /* Processes a purchase request: validates client existence and executes the purchase */
   @Post()
-  @HttpCode(201)
-  makePurchase(@Body() body: PurchaseRequestDto): PurchaseResponseDto {
-    const { clientId, amount, purchaseDate, purchaseCountry } = body;
-    const client = this.clientsService.findAll().find((c) => c.id === clientId);
-
-    if (!client) {
-      return { status: 'Rejected', reason: 'Client not found' };
-    }
-
+  makePurchase(@Body() body: PurchaseRequestDto) {
     return this.purchaseService.processPurchase(
-      client,
-      amount,
-      purchaseDate,
-      purchaseCountry,
+      body.clientId,
+      body.amount,
+      body.date,
+      body.country,
     );
   }
 }
